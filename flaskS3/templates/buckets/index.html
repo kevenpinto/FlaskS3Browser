@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+{% block title %}S3 Bucket List{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="col-12-xs">
+      <h3>Bucket List</h3>
+
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <p class="bg-info" style="padding: 15px;">
+          {% for message in messages %}
+            {{ message }}<br>
+          {% endfor %}
+          </p>
+
+        {% endif %}
+      {% endwith %}
+
+        <form class = "upload-form" action="{{url_for('buckets.create')}}" method="POST">
+          <p>Bucket Name : <input type="text" name="bucketName" required>
+          <button type="submit" class="btn btn-primary">Create Bucket</button>
+          </p>
+        </form>
+
+      <table class="table table-striped">
+        <tr>
+          <th>Bucket Name</th>
+          <th>Created</th>
+          <th>Delete</th>
+        </tr>
+
+      {% for bucket in buckets %}
+        <tr>
+          <td>
+              <a class="action" href="{{ url_for('files.files', bucket = bucket['Name']) }}"> {{ bucket['Name'] }} </a>
+          </td>
+          <td>{{ bucket['CreationDate'] | Hdatetimeformat }}</td>
+          <td>
+            <a class="btn btn-danger btn-sm" href="{{ url_for('buckets.delete', bucket = bucket['Name']) }}">
+              <i class="fa fa-trash-alt"></i>
+            </a>
+          </td>
+        </tr>
+      {% endfor %}
+      </table>
+    </div>
+  </div>
+{% endblock %}

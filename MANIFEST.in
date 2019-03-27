@@ -1,0 +1,4 @@
+graft flaskS3/static
+graft flaskS3/templates
+graft instance/config.py
+global-exclude *.pyc
